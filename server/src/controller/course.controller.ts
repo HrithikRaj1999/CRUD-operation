@@ -124,3 +124,16 @@ export const filterCoursesByAuthor = async (
     next(error);
   }
 };
+export const fetchSingleCourse = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const course = await Course.findOne({ _id: id });
+    res.status(200).json(course);
+  } catch (error) {
+    next(error);
+  }
+};
