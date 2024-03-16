@@ -19,7 +19,13 @@ export const useFullPageCourseCard = (courseDetails: CreateCourseResponse) => {
     } catch (error) {
       console.log(error);
     }
-    setAllCourses((prev) => [...prev.filter((course) => course._id !== _id)]);
+    setAllCourses((prev) => {
+      if (prev) {
+        return [...prev?.filter((course) => course._id !== _id)];
+      } else {
+        return prev;
+      }
+    });
     navigate("/");
   };
   return {

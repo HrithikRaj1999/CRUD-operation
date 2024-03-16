@@ -27,7 +27,11 @@ const CourseDetails = () => {
     }
     getCourseDetails(courseId!);
   }, []);
-  return <div>{<FullPageCourseCard {...{ courseDetails }} />}</div>;
+  return (
+    <div className="flex justify-center items-center h-screen">
+      {<FullPageCourseCard {...{ courseDetails }} />}
+    </div>
+  );
 };
 
 export default CourseDetails;

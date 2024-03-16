@@ -9,7 +9,7 @@ const useFilter = () => {
   const [filter, setFilter] = useState(false);
 
   const allAuthors = useMemo(
-    () => allCourses.map((course) => course.author),
+    () => allCourses?.map((course) => course.author),
     [allCourses]
   );
 
@@ -35,6 +35,6 @@ const useFilter = () => {
       setFilter(false);
     }
   };
-  return { filter, allAuthors, handleSelect, handleResetAuthorFilter };
+return { filter, allAuthors, handleSelect, handleResetAuthorFilter };
 };
 export default useFilter;

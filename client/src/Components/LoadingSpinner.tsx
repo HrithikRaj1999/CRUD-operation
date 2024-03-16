@@ -3,6 +3,7 @@ import Spinner from "./Spinner";
 const LoadingSpinner = () => {
   return (
     <div
+      className="bg-white"
       style={{
         display: "flex",
         alignItems: "center",
@@ -12,7 +13,6 @@ const LoadingSpinner = () => {
         left: 0,
         width: "100vw",
         height: "100vh",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
         zIndex: 1000,
       }}
     >

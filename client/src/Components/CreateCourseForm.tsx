@@ -1,14 +1,16 @@
 import useCreateCourseForm from "../hooks/useCreateCourseForm";
 
-
 const CourseForm = () => {
   const { formValues, handleChange, handleImageChange, handleSubmit } =
     useCreateCourseForm();
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col items-center justify-center w-full h-screen bg-white p-4"
+      className="flex flex-col items-center justify-center w-full h-screen bg-white"
     >
+      <h1 className="text-3xl font-serif text-violet-800 mb-32 w-full text-center">
+       Create a brand new course Here
+      </h1>
       <div className="flex flex-col mb-5 w-full max-w-md">
         <label
           htmlFor="thumbnail"

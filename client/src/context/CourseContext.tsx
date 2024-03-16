@@ -10,21 +10,15 @@ import { CreateCourseResponse } from "../util/types";
 import { ROUTES } from "../util/Routes";
 
 interface CreateCourseContexType {
-  allCourses: CreateCourseResponse[];
-  setAllCourses: React.Dispatch<React.SetStateAction<CreateCourseResponse[]>>;
+  allCourses: CreateCourseResponse[] | undefined | null;
+  setAllCourses: React.Dispatch<
+    React.SetStateAction<CreateCourseResponse[] | undefined | null>
+  >;
   getAllCourse: () => Promise<void>;
 }
 const CourseContext = createContext({} as CreateCourseContexType);
 const CourseContextProvider = ({ children }: PropsWithChildren) => {
-  const [allCourses, setAllCourses] = useState<CreateCourseResponse[]>([
-    {
-      _id: "",
-      thumbnail: "",
-      name: "",
-      author: "",
-      description: "",
-    },
-  ]);
+  const [allCourses, setAllCourses] = useState<CreateCourseResponse[] | null>();
   async function getAllCourse() {
     try {
       const { data: courses } = await axios.get<CreateCourseResponse[]>(

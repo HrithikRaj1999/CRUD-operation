@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCourseContext } from "../context/CourseContext";
 import { ROUTES } from "../util/Routes";
+import { CreateCourseResponse } from "../util/types";
 
 interface CourseFormValues {
   thumbnail: string;
@@ -13,7 +14,7 @@ interface CourseFormValues {
 }
 export const useCreateCourseForm = () => {
   const location = useLocation();
-  const { setAllCourses } = useCourseContext();
+  const { allCourses, setAllCourses } = useCourseContext();
   const editCourseIsTrue = location.state?.isEdit ? true : false;
   const courseDetails = location.state?.courseDetails; //only upon edit location
   const initValues = courseDetails || {
@@ -70,19 +71,24 @@ export const useCreateCourseForm = () => {
           formValues
         );
         setAllCourses((prev) => {
-          const oldCourse = [...prev];
-          return oldCourse.map((courseDetails) => {
-            if (courseDetails._id === response?.data?._id) {
-              return { ...response.data };
-            } else {
-              return courseDetails;
-            }
-          });
+          if (prev) {
+            const oldCourse = [...prev];
+            return oldCourse.map((courseDetails) => {
+              if (courseDetails._id === response?.data?._id) {
+                return { ...response.data };
+              } else {
+                return courseDetails;
+              }
+            });
+          }
         });
       } else {
         //create
         response = await axios.post(ROUTES.CREATE_COURSE, formValues);
-        setAllCourses((prev) => [...prev, response.data]);
+        setAllCourses((prev) => {
+          if (Array.isArray(prev)) return [...prev, response.data];
+          else return [...response.data];
+        });
       }
       navigate(`/course-details/${response.data?._id}`);
       setFormValues({

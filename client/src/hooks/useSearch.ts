@@ -4,15 +4,18 @@ const useSearch = () => {
   const { allCourses, setAllCourses, getAllCourse } = useCourseContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [searched, setSearch] = useState(false);
+
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearch(true);
-    const filteredCourses = allCourses.filter(
+    const filteredCourses = allCourses?.filter(
       (course) =>
         course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         course.author.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setAllCourses([...filteredCourses]);
+    if (filteredCourses?.length) {
+      setAllCourses([...filteredCourses]);
+    }
   };
 
   const handleResetSearch = async () => {
@@ -20,7 +23,13 @@ const useSearch = () => {
     setSearchTerm("");
     setSearch(false);
   };
-  return { handleResetSearch, searched,setSearchTerm, handleSearch, searchTerm };
+  return {
+    handleResetSearch,
+    searched,
+    setSearchTerm,
+    handleSearch,
+    searchTerm,
+  };
 };
 
 export default useSearch;

@@ -10,16 +10,16 @@ const Filter = () => {
         disabled={filter}
         onChange={handleSelect}
         defaultValue=""
-        className="border-2 rounded-md p-3 text-left text-xl bg-gray-200"
+        className="border-2 rounded-md p-3 text-left text-xl bg-sky-300"
       >
         <option value="" disabled>
           Filter Courses by author
         </option>
-        {allAuthors.map((author, index) => (
+        {allAuthors?.map((author, index) => (
           <option key={index} value={author}>
             {author}
           </option>
-        ))}
+      ))}
       </select>
       {filter ? (
         <button
