@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { CreateCourseResponse } from "../Components/CreateCourseForm";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import FullPageCourseCard from "../Components/FullPageCourseCard";
+import { CreateCourseResponse } from "../util/types";
+import { ROUTES } from "../util/Routes";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
@@ -17,7 +18,7 @@ const CourseDetails = () => {
     async function getCourseDetails(courseId: string) {
       try {
         const { data: courseData } = await axios.get<CreateCourseResponse>(
-          `${process.env.REACT_APP_SERVER_URL}/course/fetch/${courseId}`
+          ROUTES.FETCH_BY_ID(courseId)
         );
         setCourseDetails({ ...courseData });
       } catch (error) {

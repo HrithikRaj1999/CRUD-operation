@@ -5,8 +5,9 @@ import {
   useEffect,
   useState,
 } from "react";
-import { CreateCourseResponse } from "../Components/CreateCourseForm";
 import axios from "axios";
+import { CreateCourseResponse } from "../util/types";
+import { ROUTES } from "../util/Routes";
 
 interface CreateCourseContexType {
   allCourses: CreateCourseResponse[];
@@ -27,7 +28,7 @@ const CourseContextProvider = ({ children }: PropsWithChildren) => {
   async function getAllCourse() {
     try {
       const { data: courses } = await axios.get<CreateCourseResponse[]>(
-        `${process.env.REACT_APP_SERVER_URL}/course/fetch-all-course`
+        ROUTES.FETCH_ALL
       );
       setAllCourses([...courses]);
     } catch (error) {

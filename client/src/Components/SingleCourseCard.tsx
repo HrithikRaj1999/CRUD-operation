@@ -1,7 +1,4 @@
-import { CreateCourseResponse } from "./CreateCourseForm";
-interface SingleCourseCardProps {
-  course: CreateCourseResponse;
-}
+import { SingleCourseCardProps } from "../util/types";
 
 const SingleCourseCard = (props: SingleCourseCardProps) => {
   const { thumbnail, name, author, description } = props.course;

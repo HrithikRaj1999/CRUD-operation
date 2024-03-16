@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react";
 import Layout from "../Components/Layout";
-import { Outlet, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { EditPage } from "../Pages/EditPage";
 

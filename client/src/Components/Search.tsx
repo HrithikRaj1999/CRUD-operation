@@ -1,28 +1,8 @@
-import { useState } from "react";
-import { useCourseContext } from "../context/CourseContext";
-import { CreateCourseResponse } from "./CreateCourseForm";
-import axios from "axios";
+import useSearch from "../hooks/useSearch";
 
 const Search = () => {
-  const { allCourses, setAllCourses, getAllCourse } = useCourseContext();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searched, setSearch] = useState(false);
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSearch(true);
-    const filteredCourses = allCourses.filter(
-      (course) =>
-        course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.author.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setAllCourses([...filteredCourses]);
-  };
-
-  const handleResetSearch = async () => {
-    await getAllCourse();
-    setSearchTerm("");
-    setSearch(false);
-  };
+  const { handleResetSearch, searched, handleSearch, setSearchTerm } =
+    useSearch();
   return (
     <form className="max-w-lg mx-auto flex " onSubmit={handleSearch}>
       <label

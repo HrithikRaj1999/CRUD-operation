@@ -1,31 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import { CreateCourseResponse } from "./CreateCourseForm";
-import axios from "axios";
-import { useCourseContext } from "../context/CourseContext";
+import { useFullPageCourseCard } from "../hooks/useFullPageCourseCard";
+import { FullPageCourseCardPropsType } from "../util/types";
 
-interface FullPageCourseCardPropsType {
-  courseDetails: CreateCourseResponse;
-}
 const FullPageCourseCard = (props: FullPageCourseCardPropsType) => {
-  const navigate = useNavigate();
-  const { setAllCourses } = useCourseContext();
-  const { _id, thumbnail, name, author, description } = props.courseDetails;
-  const handleEditCourse = () => {
-    navigate("/edit-course", {
-      state: { courseDetails: props.courseDetails, isEdit: true },
-    });
-  };
-  const handleDeleteCourse = async () => {
-    try {
-      await axios.delete(
-        `${process.env.REACT_APP_SERVER_URL}/course/delete-course/${_id}`
-      );
-    } catch (error) {
-      console.log(error);
-    }
-    setAllCourses((prev) => [...prev.filter((course) => course._id !== _id)]);
-    navigate("/");
-  };
+  const {
+    thumbnail,
+    name,
+    author,
+    description,
+    handleEditCourse,
+    handleDeleteCourse,
+  } = useFullPageCourseCard(props.courseDetails);
   return (
     <div className="flex justify-center  items-center w-screen h-screen ">
       <div className="flex flex-col justify-center  items-center  w-full h-full p-4 bg-white shadow-md rounded-xl">
