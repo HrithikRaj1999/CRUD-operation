@@ -1,12 +1,12 @@
 import { Suspense, lazy } from "react";
 import Layout from "../Components/Layout";
-import { createBrowserRouter } from "react-router-dom";
+import { Outlet, createBrowserRouter } from "react-router-dom";
 import LoadingSpinner from "../Components/LoadingSpinner";
+import { EditPage } from "../Pages/EditPage";
 
 const HomePage = lazy(() => import("../Pages/Home"));
 const CourseDetailPage = lazy(() => import("../Pages/CourseDetails"));
 const CreatePage = lazy(() => import("../Pages/CreateCourse"));
-
 
 const appRouter = createBrowserRouter([
   {
@@ -35,6 +35,16 @@ const appRouter = createBrowserRouter([
       <Suspense fallback={<LoadingSpinner />}>
         <Layout>
           <CreatePage />
+        </Layout>
+      </Suspense>
+    ),
+  },
+  {
+    path: "/edit-course",
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <Layout>
+          <EditPage />
         </Layout>
       </Suspense>
     ),

@@ -1,11 +1,28 @@
+import { useNavigate } from "react-router-dom";
 import { CreateCourseResponse } from "./CreateCourseForm";
+import axios from "axios";
 
 interface FullPageCourseCardPropsType {
   courseDetails: CreateCourseResponse;
 }
 const FullPageCourseCard = (props: FullPageCourseCardPropsType) => {
-  const { thumbnail, name, author, description } = props.courseDetails;
-
+  const navigate = useNavigate();
+  const { _id, thumbnail, name, author, description } = props.courseDetails;
+  const handleEditCourse = () => {
+    navigate("/edit-course", {
+      state: { courseDetails: props.courseDetails, isEdit: true },
+    });
+  };
+  const handleDeleteCourse = async () => {
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_SERVER_URL}/course/delete-course/${_id}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    navigate("/");
+  };
   return (
     <div className="flex justify-center  items-center w-screen h-screen ">
       <div className="flex flex-col justify-center  items-center  w-full h-full p-4 bg-white shadow-md rounded-xl">
@@ -27,7 +44,10 @@ const FullPageCourseCard = (props: FullPageCourseCardPropsType) => {
             {description}
           </p>
         </div>
+
         {/* Button or other content can go here */}
+        <button onClick={handleEditCourse}>Edit </button>
+        <button onClick={handleDeleteCourse}>Delete </button>
       </div>
     </div>
   );

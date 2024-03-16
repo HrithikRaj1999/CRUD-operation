@@ -5,7 +5,7 @@ import {
   fetchAllCourse,
   filterCoursesByAuthor,
   updateCourse,
-  fetchSingleCourse
+  fetchSingleCourse,
 } from "../controller/course.controller";
 import { tryCatchError } from "./../utils/errorWrapper";
 

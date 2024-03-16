@@ -21,7 +21,7 @@ const Home = () => {
     getAllCourse();
   }, []);
   return (
-    <div className="flex flex-row justify-center items-center m-5 p-4 gap-7">
+    <div className="flex flex-row flex-wrap justify-center items-center m-5 p-4 gap-7">
       {allCourses.length
         ? allCourses.map((course) => (
             <Link to={`/course-details/${course._id}`}>

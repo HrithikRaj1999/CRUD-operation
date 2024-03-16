@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { PropsWithChildren, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface CourseFormValues {
   thumbnail: string;
@@ -16,14 +16,20 @@ export interface CreateCourseResponse {
   author: string;
   description: string;
 }
-const CourseForm: React.FC = () => {
-  const navigate = useNavigate();
-  const [formValues, setFormValues] = useState<CourseFormValues>({
+
+const CourseForm = () => {
+  const location = useLocation();
+
+  const editCourseIsTrue = location.state?.isEdit ? true : false;
+  const courseDetails = location.state?.courseDetails; //only upon edit location
+  const initValues = courseDetails || {
     thumbnail: "",
     name: "",
     author: "",
     description: "",
-  });
+  };
+  const navigate = useNavigate();
+  const [formValues, setFormValues] = useState<CourseFormValues>(initValues);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -58,12 +64,22 @@ const CourseForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let response = null;
     try {
-      const { data: insertedCourse } = await axios.post<CreateCourseResponse>(
-        `${process.env.REACT_APP_SERVER_URL}/course/create-course`,
-        formValues
-      );
-      navigate(`/course-details/${insertedCourse?._id}`);
+      if (editCourseIsTrue) {
+        console.log({ editCourseIsTrue, formValues });
+        response = await axios.put(
+          `${process.env.REACT_APP_SERVER_URL}/course/update-course/${courseDetails._id}`,
+          formValues
+        );
+      } else {
+        response = await axios.post<CreateCourseResponse>(
+          `${process.env.REACT_APP_SERVER_URL}/course/create-course`,
+          formValues
+        );
+      }
+
+      navigate(`/course-details/${response.data?._id}`);
       setFormValues({
         thumbnail: "",
         name: "",
@@ -94,15 +110,15 @@ const CourseForm: React.FC = () => {
           onChange={handleImageChange}
           className="border-2 border-gray-300 rounded-md p-2 text-sm text-gray-900 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
         />
-        {formValues.thumbnail && (
+        {formValues.thumbnail ? (
           <div className="mt-2 flex justify-center">
             <img
               src={formValues.thumbnail}
               alt="Thumbnail"
-              className="h-40 w-40 object-cover rounded-md"
+              className="h-full w-full object-fit rounded-md"
             />
           </div>
-        )}
+        ) : null}
       </div>
       <div className="flex flex-col mb-5 w-full max-w-md">
         <label

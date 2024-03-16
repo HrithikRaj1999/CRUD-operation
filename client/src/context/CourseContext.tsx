@@ -1,5 +1,12 @@
-import { PropsWithChildren, createContext, useContext, useState } from "react";
+import {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { CreateCourseResponse } from "../Components/CreateCourseForm";
+import axios from "axios";
 
 interface CreateCourseContexType {
   allCourses: CreateCourseResponse[];
@@ -16,7 +23,19 @@ const CourseContextProvider = ({ children }: PropsWithChildren) => {
       description: "",
     },
   ]);
-
+  async function getAllCourse() {
+    try {
+      const { data: courses } = await axios.get<CreateCourseResponse[]>(
+        `${process.env.REACT_APP_SERVER_URL}/course/fetch-all-course`
+      );
+      setAllCourses([...courses]);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  useEffect(() => {
+    getAllCourse();
+  }, []);
   return (
     <CourseContext.Provider value={{ allCourses, setAllCourses }}>
       {children}
