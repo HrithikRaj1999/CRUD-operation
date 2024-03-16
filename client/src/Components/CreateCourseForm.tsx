@@ -1,6 +1,7 @@
-import axios from "axios";
-import React, { PropsWithChildren, useState } from "react";
+import axios, { AxiosResponse } from "axios";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useCourseContext } from "../context/CourseContext";
 
 interface CourseFormValues {
   thumbnail: string;
@@ -19,7 +20,7 @@ export interface CreateCourseResponse {
 
 const CourseForm = () => {
   const location = useLocation();
-
+  const { setAllCourses } = useCourseContext();
   const editCourseIsTrue = location.state?.isEdit ? true : false;
   const courseDetails = location.state?.courseDetails; //only upon edit location
   const initValues = courseDetails || {
@@ -39,6 +40,9 @@ const CourseForm = () => {
       [name]: value,
     }));
   };
+
+  //generally we use firebase or google cloud we donot store the files directly in mongo db
+  //this is just for small images else crashing of db might take place
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -64,21 +68,32 @@ const CourseForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let response = null;
+    let response: AxiosResponse;
     try {
       if (editCourseIsTrue) {
-        console.log({ editCourseIsTrue, formValues });
+        //edit
         response = await axios.put(
           `${process.env.REACT_APP_SERVER_URL}/course/update-course/${courseDetails._id}`,
           formValues
         );
+        setAllCourses((prev) => {
+          const oldCourse = [...prev];
+          return oldCourse.map((courseDetails) => {
+            if (courseDetails._id === response?.data?._id) {
+              return { ...response.data };
+            } else {
+              return courseDetails;
+            }
+          });
+        });
       } else {
-        response = await axios.post<CreateCourseResponse>(
+        //create
+        response = await axios.post(
           `${process.env.REACT_APP_SERVER_URL}/course/create-course`,
           formValues
         );
+        setAllCourses((prev) => [...prev, response.data]);
       }
-
       navigate(`/course-details/${response.data?._id}`);
       setFormValues({
         thumbnail: "",

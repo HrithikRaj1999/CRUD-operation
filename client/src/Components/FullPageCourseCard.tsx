@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { CreateCourseResponse } from "./CreateCourseForm";
 import axios from "axios";
+import { useCourseContext } from "../context/CourseContext";
 
 interface FullPageCourseCardPropsType {
   courseDetails: CreateCourseResponse;
 }
 const FullPageCourseCard = (props: FullPageCourseCardPropsType) => {
   const navigate = useNavigate();
+  const { setAllCourses } = useCourseContext();
   const { _id, thumbnail, name, author, description } = props.courseDetails;
   const handleEditCourse = () => {
     navigate("/edit-course", {
@@ -21,6 +23,7 @@ const FullPageCourseCard = (props: FullPageCourseCardPropsType) => {
     } catch (error) {
       console.log(error);
     }
+    setAllCourses((prev) => [...prev.filter((course) => course._id !== _id)]);
     navigate("/");
   };
   return (

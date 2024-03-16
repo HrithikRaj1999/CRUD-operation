@@ -1,10 +1,9 @@
-import React from "react";
 import CourseForm from "../Components/CreateCourseForm";
 
 const CreateCourse = () => {
   return (
     <div>
-      <CourseForm  />
+      <CourseForm />
     </div>
   );
 };

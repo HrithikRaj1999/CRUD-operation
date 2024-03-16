@@ -6,13 +6,9 @@ interface SingleCourseCardProps {
 const SingleCourseCard = (props: SingleCourseCardProps) => {
   const { thumbnail, name, author, description } = props.course;
   return (
-    <div className="relative w-[400px] h-[400px] flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl ">
-      <div className="relative h-56 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40">
-        <img
-          src={thumbnail}
-          className={"object-fit w-full h-full"}
-          alt="card"
-        />
+    <div className="w-[400px] h-[400px] flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl ">
+      <div className="h-60  mx-4  mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40">
+        <img src={thumbnail} alt="card" className="object-fit w-full h-full" />
       </div>
       <div className="p-6">
         <h5 className="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">

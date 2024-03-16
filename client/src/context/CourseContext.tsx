@@ -11,6 +11,7 @@ import axios from "axios";
 interface CreateCourseContexType {
   allCourses: CreateCourseResponse[];
   setAllCourses: React.Dispatch<React.SetStateAction<CreateCourseResponse[]>>;
+  getAllCourse: () => Promise<void>;
 }
 const CourseContext = createContext({} as CreateCourseContexType);
 const CourseContextProvider = ({ children }: PropsWithChildren) => {
@@ -37,7 +38,7 @@ const CourseContextProvider = ({ children }: PropsWithChildren) => {
     getAllCourse();
   }, []);
   return (
-    <CourseContext.Provider value={{ allCourses, setAllCourses }}>
+    <CourseContext.Provider value={{ allCourses, setAllCourses, getAllCourse }}>
       {children}
     </CourseContext.Provider>
   );

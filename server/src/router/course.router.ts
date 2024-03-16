@@ -11,7 +11,7 @@ import { tryCatchError } from "./../utils/errorWrapper";
 
 const courseRouter = Router();
 
-//example http://localhost:8080/api/v1/course/
+
 
 courseRouter.post("/create-course", tryCatchError(createNewCourse)); //new entry
 courseRouter.put("/update-course/:id", tryCatchError(updateCourse)); //update

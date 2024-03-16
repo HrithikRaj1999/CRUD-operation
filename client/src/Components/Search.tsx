@@ -4,7 +4,7 @@ import { CreateCourseResponse } from "./CreateCourseForm";
 import axios from "axios";
 
 const Search = () => {
-  const { allCourses, setAllCourses } = useCourseContext();
+  const { allCourses, setAllCourses, getAllCourse } = useCourseContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [searched, setSearch] = useState(false);
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
@@ -17,24 +17,14 @@ const Search = () => {
     );
     setAllCourses([...filteredCourses]);
   };
-  async function getAllCourse() {
-    try {
-      const { data: courses } = await axios.get<CreateCourseResponse[]>(
-        `${process.env.REACT_APP_SERVER_URL}/course/fetch-all-course`
-      );
-      setAllCourses([...courses]);
-    } catch (error) {
-      console.error(error);
-      setSearch(false);
-    }
-  }
+
   const handleResetSearch = async () => {
     await getAllCourse();
     setSearchTerm("");
     setSearch(false);
   };
   return (
-    <form className="max-w-md mx-auto flex " onSubmit={handleSearch}>
+    <form className="max-w-lg mx-auto flex " onSubmit={handleSearch}>
       <label
         htmlFor="default-search"
         className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -42,7 +32,7 @@ const Search = () => {
         Search
       </label>
       <div className="relative ">
-        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+        <div className="absolute  inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
           <svg
             className="w-4 h-4 text-gray-500 dark:text-gray-400"
             aria-hidden="true"
@@ -61,26 +51,28 @@ const Search = () => {
         </div>
         <input
           type="search"
+          placeholder="search by name and author"
           onChange={(e) => setSearchTerm(e.target.value)}
           id="default-search"
-          className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="block p-4 ps-10 w-[400px] text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           required
         />
-        <button
-          type="submit"
-          className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Search
-        </button>
+        {searched ? (
+          <button
+            onClick={handleResetSearch}
+            className="text-white absolute end-2.5 bottom-2.5 bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+          >
+            reset
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Search
+          </button>
+        )}
       </div>
-      {searched ? (
-        <button
-          onClick={handleResetSearch}
-          className="bg-red-600 mx-4 p-2 rounded-sm focus:ring-4 hover:bg-red-300  focus:outline-none"
-        >
-          reset
-        </button>
-      ) : null}
     </form>
   );
 };
