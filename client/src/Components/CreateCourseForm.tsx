@@ -39,7 +39,6 @@ const CourseForm: React.FC = () => {
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        console.log("FileReader result:", reader.result); // Check the FileReader result
         if (reader.result) {
           setFormValues((prev) => ({
             ...prev,
@@ -75,7 +74,6 @@ const CourseForm: React.FC = () => {
       console.log(error);
     }
   };
-  console.log({ thumbail: formValues.thumbnail });
   return (
     <form
       onSubmit={handleSubmit}

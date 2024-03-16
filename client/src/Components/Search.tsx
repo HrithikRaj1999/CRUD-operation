@@ -10,10 +10,12 @@ const Search = () => {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearch(true);
-    const filteredCourses = allCourses.filter((course) =>
-      course.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredCourses = allCourses.filter(
+      (course) =>
+        course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.author.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setAllCourses(filteredCourses);
+    setAllCourses([...filteredCourses]);
   };
   async function getAllCourse() {
     try {

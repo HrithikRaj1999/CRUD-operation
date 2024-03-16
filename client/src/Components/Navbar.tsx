@@ -1,8 +1,9 @@
-
-import { Link } from "react-router-dom";
+import { Link, useLocation, } from "react-router-dom";
 import Search from "./Search";
 
 export default function Navbar() {
+  const { pathname } = useLocation();
+  const showSearch = pathname.toString() === "/";
   const NavList = () => (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <li color="blue-gray" className="p-1 font-normal">
@@ -24,7 +25,7 @@ export default function Navbar() {
         <span className="mr-4 cursor-pointer py-1.5 font-medium">
           Stikkman UX Course Task
         </span>
-        <Search />
+        {showSearch ? <Search /> : null}
         <NavList />
       </div>
     </nav>

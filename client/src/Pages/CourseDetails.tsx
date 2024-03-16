@@ -19,7 +19,6 @@ const CourseDetails = () => {
         const { data: courseData } = await axios.get<CreateCourseResponse>(
           `${process.env.REACT_APP_SERVER_URL}/course/fetch/${courseId}`
         );
-        console.log({ courseData });
         setCourseDetails({ ...courseData });
       } catch (error) {
         console.error(error);
