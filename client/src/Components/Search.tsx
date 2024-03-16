@@ -9,7 +9,7 @@ const Search = () => {
     searchTerm,
   } = useSearch();
   return (
-    <form className="max-w-lg mx-auto flex " onSubmit={handleSearch}>
+    <form className="max-w-lg  flex mx-9" onSubmit={handleSearch}>
       <label
         htmlFor="default-search"
         className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"

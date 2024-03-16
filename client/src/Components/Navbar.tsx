@@ -31,16 +31,21 @@ export default function Navbar() {
 
   return (
     <nav className="sticky bg-black min-w-[400px] text-3xl text-white top-0 z-10 h-20 max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4">
-      <div className="flex items-center justify-between">
-        <img
-    
-          src="/logo.png"
-          className="w-[50px] h-[50px] object-fit rounded-full mx-2 bg-[#09948f] bg-opacity-90"
-          alt="img"
-        />
-        <span className="mr-4 cursor-pointer py-1.5 font-medium">
-          Stikkman UX Course Task
-        </span>
+      <div
+        className={`flex items-center ${
+          showSearch ? "justify-between" : "justify-end"
+        }`}
+      >
+        <div className="flex items-center justify-start flex-grow">
+          <img
+            src="/logo.png"
+            className="w-[50px] h-[50px] object-fit rounded-full mx-2 bg-[#09948f] bg-opacity-90"
+            alt="logo"
+          />
+          <span className="mr-4 cursor-pointer py-1.5 font-medium">
+            Stikkman UX Course Task
+          </span>
+        </div>
         {showSearch ? <Search /> : null}
         <NavList />
       </div>

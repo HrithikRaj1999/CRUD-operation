@@ -5,7 +5,7 @@ import { ROUTES } from "../util/Routes";
 
 const useFilter = () => {
   const { allCourses, getAllCourse, setAllCourses } = useCourseContext();
-
+  const[defualtValue,setDefaultValue]=useState('')
   const [filter, setFilter] = useState(false);
 
   const allAuthors = useMemo(
@@ -21,6 +21,7 @@ const useFilter = () => {
       );
       setAllCourses([...courses]);
       setFilter(true);
+      setDefaultValue(value)
     } catch (error) {
       console.error(error);
       setFilter(false);
@@ -29,12 +30,13 @@ const useFilter = () => {
   const handleResetAuthorFilter = async () => {
     try {
       await getAllCourse();
+      setDefaultValue("")
     } catch (error) {
       console.log(error);
     } finally {
       setFilter(false);
     }
   };
-return { filter, allAuthors, handleSelect, handleResetAuthorFilter };
+return { filter, allAuthors, handleSelect, defualtValue,handleResetAuthorFilter };
 };
 export default useFilter;
