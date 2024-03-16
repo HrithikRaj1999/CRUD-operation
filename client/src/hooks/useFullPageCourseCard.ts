@@ -6,7 +6,8 @@ import { ROUTES } from "../util/Routes";
 export const useFullPageCourseCard = (courseDetails: CreateCourseResponse) => {
   const navigate = useNavigate();
   const { setAllCourses } = useCourseContext();
-  const { _id, thumbnail, name, author, description } = courseDetails;
+  const { _id, thumbnail, name, author, description, createdAt } =
+    courseDetails;
 
   const handleEditCourse = () => {
     navigate("/edit-course", {
@@ -34,6 +35,7 @@ export const useFullPageCourseCard = (courseDetails: CreateCourseResponse) => {
     name,
     author,
     description,
+    createdAt,
     handleEditCourse,
     handleDeleteCourse,
   };

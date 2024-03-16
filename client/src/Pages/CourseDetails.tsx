@@ -13,6 +13,7 @@ const CourseDetails = () => {
     name: "",
     author: "",
     description: "",
+    createdAt:""
   });
   useEffect(() => {
     async function getCourseDetails(courseId: string) {

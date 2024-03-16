@@ -31,7 +31,7 @@ const CourseForm = () => {
             <img
               src={formValues.thumbnail}
               alt="Thumbnail"
-              className="h-full w-full object-fit rounded-md"
+              className="h-[200px] w-[200px] object-fit rounded-md"
             />
           </div>
         ) : null}

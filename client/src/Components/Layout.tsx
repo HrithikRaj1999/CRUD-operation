@@ -1,12 +1,16 @@
-import { PropsWithChildren } from "react";
-import Navbar from "./Navbar";
-import CourseContextProvider from "../context/CourseContext";
+import React from 'react';
+import Navbar from './Navbar';
+import CourseContextProvider from '../context/CourseContext';
 
-const Layout = ({ children }: PropsWithChildren) => {
+const Layout = ({ children }: React.PropsWithChildren<{}>) => {
   return (
     <CourseContextProvider>
-      <Navbar />
-      {children}
+      <div className="flex flex-col h-screen">
+        <Navbar />
+        <div className="flex-1 overflow-auto">
+          {children}
+        </div>
+      </div>
     </CourseContextProvider>
   );
 };
