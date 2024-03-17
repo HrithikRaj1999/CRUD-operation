@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCourseContext } from "../context/CourseContext";
 import { ROUTES } from "../util/Routes";
-import { CreateCourseResponse } from "../util/types";
+import toast from "react-hot-toast";
 
 interface CourseFormValues {
   thumbnail: string;
@@ -14,7 +14,7 @@ interface CourseFormValues {
 }
 export const useCreateCourseForm = () => {
   const location = useLocation();
-  const { allCourses, setAllCourses } = useCourseContext();
+  const { setAllCourses } = useCourseContext();
   const editCourseIsTrue = location.state?.isEdit ? true : false;
   const courseDetails = location.state?.courseDetails; //only upon edit location
   const initValues = courseDetails || {
@@ -52,11 +52,13 @@ export const useCreateCourseForm = () => {
       };
 
       reader.readAsDataURL(file);
+      toast.success("Image uploaded successfully");
     } else {
       setFormValues((prev) => ({
         ...prev,
         thumbnail: "",
       }));
+      toast.error("Image uploaded Failed");
     }
   };
 
@@ -82,6 +84,7 @@ export const useCreateCourseForm = () => {
             });
           }
         });
+        toast.success("Edited successfully");
       } else {
         //create
         response = await axios.post(ROUTES.CREATE_COURSE, formValues);
@@ -89,6 +92,7 @@ export const useCreateCourseForm = () => {
           if (Array.isArray(prev)) return [...prev, response.data];
           else return [...response.data];
         });
+        toast.success("Course Created successfully");
       }
       navigate(`/course-details/${response.data?._id}`);
       setFormValues({
@@ -98,7 +102,7 @@ export const useCreateCourseForm = () => {
         description: "",
       });
     } catch (error) {
-      console.log(error);
+      if (error) toast.error(error.toString());
     }
   };
   return { formValues, handleChange, handleImageChange, handleSubmit };

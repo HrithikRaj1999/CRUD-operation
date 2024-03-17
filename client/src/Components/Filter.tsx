@@ -8,7 +8,7 @@ const Filter = () => {
     handleResetAuthorFilter,
     handleSelect,
   } = useFilter();
-  return (
+    return (
     <div className=" sticky top-0 flex h-screen  items-start my-4 mx-1 flex-col gap-4   p-3">
       <h1 className="text-3xl">Filter by author</h1>
       <select

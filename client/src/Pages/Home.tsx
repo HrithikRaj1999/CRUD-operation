@@ -3,9 +3,14 @@ import { Link } from "react-router-dom";
 import { useCourseContext } from "../context/CourseContext";
 import Filter from "../Components/Filter";
 import LoadingSpinner from "../Components/LoadingSpinner";
+import { useCallback, useEffect } from "react";
+import { ROUTES } from "../util/Routes";
+import axios from "axios";
 
 const Home = () => {
-  const { allCourses } = useCourseContext();
+  const { allCourses, setAllCourses } = useCourseContext();
+ 
+
   if (!allCourses?.length) {
     return <LoadingSpinner />;
   }

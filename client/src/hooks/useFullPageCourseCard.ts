@@ -3,6 +3,7 @@ import axios from "axios";
 import { useCourseContext } from "../context/CourseContext";
 import { CreateCourseResponse } from "../util/types";
 import { ROUTES } from "../util/Routes";
+import toast from "react-hot-toast";
 export const useFullPageCourseCard = (courseDetails: CreateCourseResponse) => {
   const navigate = useNavigate();
   const { setAllCourses } = useCourseContext();
@@ -17,8 +18,9 @@ export const useFullPageCourseCard = (courseDetails: CreateCourseResponse) => {
   const handleDeleteCourse = async () => {
     try {
       await axios.delete(ROUTES.DELETE(_id));
+      toast.success("Course deleted successfully");
     } catch (error) {
-      console.log(error);
+      if (error) toast.error(error.toString());
     }
     setAllCourses((prev) => {
       if (prev) {

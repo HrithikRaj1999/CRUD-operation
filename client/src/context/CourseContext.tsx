@@ -8,6 +8,7 @@ import {
 import axios from "axios";
 import { CreateCourseResponse } from "../util/types";
 import { ROUTES } from "../util/Routes";
+import { useLocation } from "react-router-dom";
 
 interface CreateCourseContexType {
   allCourses: CreateCourseResponse[] | undefined | null;
@@ -18,6 +19,7 @@ interface CreateCourseContexType {
 }
 const CourseContext = createContext({} as CreateCourseContexType);
 const CourseContextProvider = ({ children }: PropsWithChildren) => {
+  const location = useLocation();
   const [allCourses, setAllCourses] = useState<CreateCourseResponse[] | null>();
   async function getAllCourse() {
     try {
@@ -30,8 +32,8 @@ const CourseContextProvider = ({ children }: PropsWithChildren) => {
     }
   }
   useEffect(() => {
-    getAllCourse();
-  }, []);
+    if (location.pathname === "/") getAllCourse();
+  }, [location.pathname]);
   return (
     <CourseContext.Provider value={{ allCourses, setAllCourses, getAllCourse }}>
       {children}
