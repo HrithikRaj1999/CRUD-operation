@@ -1,4 +1,5 @@
 import useSearch from "../hooks/useSearch";
+import ButtonWithSpinner from "./ButtonWithSpinner";
 
 const Search = () => {
   const {
@@ -9,7 +10,11 @@ const Search = () => {
     searchTerm,
   } = useSearch();
   return (
-    <form className="max-w-lg  flex mx-9" onSubmit={handleSearch}>
+    <form
+      className="max-w-lg  flex mx-9"
+      autoComplete=""
+      onSubmit={handleSearch}
+    >
       <label
         htmlFor="default-search"
         className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -43,20 +48,24 @@ const Search = () => {
           required
         />
         {searched ? (
-          <button
+          <ButtonWithSpinner
+            w={20}
+            h={20}
             onClick={handleResetSearch}
             className="text-white absolute end-2.5 bottom-2.5 bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
           >
             reset
-          </button>
+          </ButtonWithSpinner>
         ) : (
-          <button
+          <ButtonWithSpinner
             type="submit"
+            w={20}
+            h={20}
             disabled={!searchTerm.length}
             className="text-white absolute disabled:bg-blue-400 end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Search
-          </button>
+          </ButtonWithSpinner>
         )}
       </div>
     </form>

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useCourseContext } from "../context/CourseContext";
+import toast from "react-hot-toast";
 const useSearch = () => {
-  const { allCourses, setAllCourses, getAllCourse } = useCourseContext();
+  const { allCourses, setAllCourses, setLoading, getAllCourse } =
+    useCourseContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [searched, setSearch] = useState(false);
 
@@ -15,13 +17,19 @@ const useSearch = () => {
     );
     if (filteredCourses?.length) {
       setAllCourses([...filteredCourses]);
+    } else {
+      toast.error("No Courses found");
+      setSearchTerm("");
+      setSearch(false);
     }
   };
 
   const handleResetSearch = async () => {
+    setLoading(true);
     await getAllCourse();
     setSearchTerm("");
     setSearch(false);
+    setLoading(false);
   };
   return {
     handleResetSearch,

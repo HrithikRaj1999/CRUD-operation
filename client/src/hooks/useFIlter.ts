@@ -5,7 +5,8 @@ import { ROUTES } from "../util/Routes";
 import toast from "react-hot-toast";
 
 const useFilter = () => {
-  const { allCourses, getAllCourse, setAllCourses } = useCourseContext();
+  const { allCourses, getAllCourse, setAllCourses, setLoading } =
+    useCourseContext();
   const [defualtValue, setDefaultValue] = useState("");
   const [filter, setFilter] = useState(false);
 
@@ -31,6 +32,7 @@ const useFilter = () => {
   };
   const handleResetAuthorFilter = async () => {
     try {
+      setLoading(true);
       await getAllCourse();
       toast.success("Reset was successfully");
       setDefaultValue("");
@@ -38,6 +40,7 @@ const useFilter = () => {
       if (error && error instanceof AxiosError) toast.error(error.toString());
       console.error(error);
     } finally {
+      setLoading(false);
       setFilter(false);
     }
   };

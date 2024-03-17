@@ -1,30 +1,34 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCourseContext } from "../context/CourseContext";
 import { ROUTES } from "../util/Routes";
 import toast from "react-hot-toast";
+import { CourseFormValues } from "../util/types";
 
-interface CourseFormValues {
-  thumbnail: string;
-  name: string;
-  author: string;
-  description: string;
-}
 export const useCreateCourseForm = () => {
   const location = useLocation();
-  const { setAllCourses } = useCourseContext();
+  const { setAllCourses, setLoading } = useCourseContext();
+
   const editCourseIsTrue = location.state?.isEdit ? true : false;
-  const courseDetails = location.state?.courseDetails; //only upon edit location
-  const initValues = courseDetails || {
+  const navigate = useNavigate();
+  const [formValues, setFormValues] = useState<CourseFormValues>({
+    _id: "",
     thumbnail: "",
     name: "",
     author: "",
     description: "",
-  };
-  const navigate = useNavigate();
-  const [formValues, setFormValues] = useState<CourseFormValues>(initValues);
+  });
+  useLayoutEffect(() => {
+    const courseDetails = location.state?.courseDetails ?? {
+      thumbnail: "",
+      name: "",
+      author: "",
+      description: "",
+    };
+    setFormValues(courseDetails);
+  }, []);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -64,12 +68,13 @@ export const useCreateCourseForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     let response: AxiosResponse;
     try {
       if (editCourseIsTrue) {
         //edit
         response = await axios.put(
-          ROUTES.UPDATE_COURSE(courseDetails._id),
+          ROUTES.UPDATE_COURSE(formValues._id),
           formValues
         );
         setAllCourses((prev) => {
@@ -100,9 +105,12 @@ export const useCreateCourseForm = () => {
         name: "",
         author: "",
         description: "",
+        _id: "",
       });
     } catch (error) {
       if (error) toast.error(error.toString());
+    } finally {
+      setLoading(false);
     }
   };
   return { formValues, handleChange, handleImageChange, handleSubmit };

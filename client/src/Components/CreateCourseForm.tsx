@@ -1,7 +1,10 @@
+import { useCourseContext } from "../context/CourseContext";
 import useCreateCourseForm from "../hooks/useCreateCourseForm";
+import ButtonWithSpinner from "./ButtonWithSpinner";
 
 const CourseForm = () => {
-  const { formValues, handleChange, handleImageChange, handleSubmit } =
+  const {loading}=useCourseContext()
+  const { formValues, handleChange ,handleImageChange, handleSubmit } =
     useCreateCourseForm();
   return (
     <form
@@ -9,7 +12,7 @@ const CourseForm = () => {
       className="flex flex-col items-center justify-center w-full h-screen bg-white"
     >
       <h1 className="text-3xl font-serif text-violet-800 mb-32 w-full text-center">
-       Create a brand new course Here
+        Create a brand new course Here
       </h1>
       <div className="flex flex-col mb-5 w-full max-w-md">
         <label
@@ -88,12 +91,15 @@ const CourseForm = () => {
           className="border-2 border-gray-300 rounded-md p-3 text-sm w-full"
         />
       </div>
-      <button
+      <ButtonWithSpinner
         type="submit"
+        w={20}
+        h={20}
+        disabled={loading}
         className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Submit
-      </button>
+      </ButtonWithSpinner>
     </form>
   );
 };
