@@ -9,7 +9,7 @@ import { CourseFormValues } from "../util/types";
 
 export const useCreateCourseForm = () => {
   const location = useLocation();
-  const { setAllCourses, setLoading } = useCourseContext();
+  const { setAllCourses } = useCourseContext();
 
   const editCourseIsTrue = location.state?.isEdit ? true : false;
   const navigate = useNavigate();
@@ -68,7 +68,6 @@ export const useCreateCourseForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
     let response: AxiosResponse;
     try {
       if (editCourseIsTrue) {
@@ -97,7 +96,7 @@ export const useCreateCourseForm = () => {
           if (Array.isArray(prev)) return [...prev, response.data];
           else return [...response.data];
         });
-        toast.success("Course Created successfully");
+      toast.success("Course Created successfully");
       }
       navigate(`/course-details/${response.data?._id}`);
       setFormValues({
@@ -109,8 +108,6 @@ export const useCreateCourseForm = () => {
       });
     } catch (error) {
       if (error) toast.error(error.toString());
-    } finally {
-      setLoading(false);
     }
   };
   return { formValues, handleChange, handleImageChange, handleSubmit };

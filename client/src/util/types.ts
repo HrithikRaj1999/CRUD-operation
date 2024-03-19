@@ -23,7 +23,7 @@ export interface SingleCourseCardProps {
   course: CreateCourseResponse;
 }
 export interface ButtonWithSpinnerProps {
-  onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
+  onClick?: () => any | MouseEventHandler<HTMLButtonElement> | undefined;
   className?: string | undefined;
   w?: number | undefined;
   type?: string | undefined;

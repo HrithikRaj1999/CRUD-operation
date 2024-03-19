@@ -1,7 +1,8 @@
 import Spinner from "./Spinner";
-import { useCourseContext } from "../context/CourseContext";
 import { ButtonWithSpinnerProps } from "../util/types";
 import { cn } from "../util/MergeClass";
+import { useCallback, useState } from "react";
+import toast from "react-hot-toast";
 
 const ButtonWithSpinner = ({
   onClick,
@@ -13,8 +14,20 @@ const ButtonWithSpinner = ({
   children,
   ...rest
 }: ButtonWithSpinnerProps) => {
-  const { loading } = useCourseContext();
+  const [isSpinning, setSpinning] = useState(false);
 
+  const handleClickCallback = useCallback(async () => {
+    if (onClick) {
+      try {
+        setSpinning(true);
+        await onClick();
+      } catch (error: any) {
+        toast.error(error);
+      } finally {
+        setSpinning(false);
+      }
+    }
+  }, [onClick]);
   return (
     <div
       className={cn(
@@ -24,9 +37,9 @@ const ButtonWithSpinner = ({
     >
       <button
         className="flex flex-row  justify-center items-center gap-x-1 px-1 "
-        {...{ onClick, ...rest }}
+        {...{ onClick: handleClickCallback, ...rest }}
       >
-        {loading ? <Spinner {...{ w, h, spinnerClassName }} /> : children}
+        {isSpinning ? <Spinner {...{ w, h, spinnerClassName }} /> : children}
       </button>
     </div>
   );

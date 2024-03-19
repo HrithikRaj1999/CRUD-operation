@@ -1,10 +1,8 @@
-import { useCourseContext } from "../context/CourseContext";
 import useCreateCourseForm from "../hooks/useCreateCourseForm";
 import ButtonWithSpinner from "./ButtonWithSpinner";
 
 const CourseForm = () => {
-  const {loading}=useCourseContext()
-  const { formValues, handleChange ,handleImageChange, handleSubmit } =
+  const { formValues, handleChange, handleImageChange, handleSubmit } =
     useCreateCourseForm();
   return (
     <form
@@ -93,9 +91,9 @@ const CourseForm = () => {
       </div>
       <ButtonWithSpinner
         type="submit"
+        onFormSubmit={handleSubmit}
         w={20}
         h={20}
-        disabled={loading}
         className="px-5 py-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Submit

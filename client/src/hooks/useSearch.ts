@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useCourseContext } from "../context/CourseContext";
 import toast from "react-hot-toast";
 const useSearch = () => {
-  const { allCourses, setAllCourses, setLoading, getAllCourse } =
+  const { allCourses, setAllCourses, getAllCourse } =
     useCourseContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [searched, setSearch] = useState(false);
@@ -25,11 +25,9 @@ const useSearch = () => {
   };
 
   const handleResetSearch = async () => {
-    setLoading(true);
     await getAllCourse();
     setSearchTerm("");
     setSearch(false);
-    setLoading(false);
   };
   return {
     handleResetSearch,
