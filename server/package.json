@@ -9,7 +9,7 @@
     "dev": "nodemon server.ts"
   },
   "engines": {
-    "node": "20ver.x"
+    "node": "18.x"
   },
   "author": "",
   "license": "ISC",
