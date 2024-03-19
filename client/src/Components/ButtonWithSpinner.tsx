@@ -1,6 +1,7 @@
 import Spinner from "./Spinner";
 import { useCourseContext } from "../context/CourseContext";
 import { ButtonWithSpinnerProps } from "../util/types";
+import { cn } from "../util/MergeClass";
 
 const ButtonWithSpinner = ({
   onClick,
@@ -15,9 +16,14 @@ const ButtonWithSpinner = ({
   const { loading } = useCourseContext();
 
   return (
-    <div className={"flex  disabled:bg-blue-200 min-w-20 justify-center items-center" + className}>
+    <div
+      className={cn(
+        "flex  disabled:bg-blue-200 min-w-20 justify-center items-center",
+        className
+      )}
+    >
       <button
-        className="flex flex-row  justify-center items-center gap-x-1 px-1  "
+        className="flex flex-row  justify-center items-center gap-x-1 px-1 "
         {...{ onClick, ...rest }}
       >
         {loading ? <Spinner {...{ w, h, spinnerClassName }} /> : children}

@@ -1,3 +1,5 @@
+import { cn } from "../util/MergeClass";
+
 const Spinner = ({
   w = 80,
   h = 80,
@@ -7,14 +9,15 @@ const Spinner = ({
   h?: number;
   spinnerClassName?: string;
 }) => {
-  const cls =
-    `text-black animate-spin dark:text-white fill-black ` + spinnerClassName;
   return (
     <div role="status">
       <svg
         aria-hidden="true"
         style={{ width: `${w}px`, height: `${h}px` }}
-        className={cls}
+        className={cn(
+          `text-black animate-spin dark:text-white fill-black `,
+          spinnerClassName
+        )}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
